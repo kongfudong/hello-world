@@ -1,5 +1,8 @@
 import os
 import datetime
+import sys
+
+#sys.setrecursionlimit(5000)
 
 today=datetime.date.today().strftime('%Y%m%d')
 remove_date=(datetime.date.today() + datetime.timedelta(days=-30)).strftime('%Y%m%d')
@@ -15,14 +18,38 @@ def mkdir():
     else:
         print("---  There is this folder!  ---" +path)
         
-def remove():
-    path=((r"C:\Users\ezhawud\Downloads\ERBS\testdata\\") + remove_date)
+def remove(path):
     folder =os.path.exists(path)
     if not folder:
-        print("--- There is no this folder")
+        print("--- There is no this folder! ---" +path)
+    #else:
+        #os.rmdir(path)
+        #print("--- remove folder!---"+path)
     else:
-        os.rmdir(path)
-        print("--- remove folder!---"+path)
+        if os.path.isfile(path):
+            try:
+                os.remove(path)
+            except Exception as e:
+                print(e)
+        elif os.path.isdir(path):
+            for i in os.listdir(path):
+                path_file =os.path.join(path,i)#取文件绝对路径
+                #print(path_file)
+                remove(path_file)
+                try:
+                    os.rmdir(path)
+                except Exception as e:
+                    print(e)
+                #if os.path.isfile(path_file):
+                    #os.remove(path_file)
+                    #os.rmdir(path)
+                    #print("--- remove folder!---"+path)
+                #else:
+                    #remove(path_file)
+                    #os.rmdir(path)
+                    #print("--- remove folder!---"+path)
+        
 if __name__ == '__main__':
     mkdir()
-    remove()
+    path=((r"C:\Users\ezhawud\Downloads\ERBS\testdata\\") + remove_date)
+    remove(path)
