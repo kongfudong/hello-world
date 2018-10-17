@@ -1,6 +1,10 @@
 import os
 import datetime
 import sys
+import logging
+
+logging.basicConfig(level = logging.INFO,format ='%(asctime)s - %(name)s - %(levelname)s : %(message)s')
+logger =logging.getLogger(__name__)
 
 #sys.setrecursionlimit(5000)
 
@@ -13,15 +17,15 @@ def mkdir():
     folder = os.path.exists(path) 
     if not folder:                   #判断是否存在文件夹如果不存在则创建为文件夹
         os.makedirs(path)            #makedirs 创建文件时如果路径不存在会创建这个路径
-        print("---  new folder...  ---" +path)
-        print("---  OK  ---")
+        logger.info("new folder..." +path)
+        logger.info("OK")
     else:
-        print("---  There is this folder!  ---" +path)
+        logger.info("There is this folder!" +"<"+path+">")
         
 def remove(path):
     folder =os.path.exists(path)
     if not folder:
-        print("--- There is no this folder! ---" +path)
+        logger.info("There is no this folder!"+"<"+path+">")
     #else:
         #os.rmdir(path)
         #print("--- remove folder!---"+path)
@@ -29,15 +33,18 @@ def remove(path):
         if os.path.isfile(path):
             try:
                 os.remove(path)
+                #logger.info("remove file:"+path)
             except Exception as e:
-                print(e)
+                logger.debug(e)
         elif os.path.isdir(path):
             for i in os.listdir(path):
                 path_file =os.path.join(path,i)#取文件绝对路径
                 #print(path_file)
                 remove(path_file)
+                logger.info("remove path:"+path_file)
                 try:
                     os.rmdir(path)
+                    logger.info("rmdir:"+path)
                 except Exception as e:
                     print(e)
                 #if os.path.isfile(path_file):
