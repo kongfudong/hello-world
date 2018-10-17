@@ -1,20 +1,21 @@
 import os
 import datetime
 import sys
-import logging
+import logging.config
+import json
 
-logger =logging.getLogger(__name__)
-logger.setLevel(level = logging.INFO)
-handler = logging.FileHandler("crontab_log.txt")
-handler.setLevel(logging.INFO)
-formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s : %(message)s')
-handler.setFormatter(formatter)
+def setup_logging(default_path = "logging.json",default_level = logging.INFO,env_key = "LOG_CFG"):
+    path = default_path
+    value = os.getenv(env_key,None)
+    if value:
+        path = value
+    if os.path.exists(path):
+        with open(path,"r") as f:
+            config = json.load(f)
+            logging.config.dictConfig(config)
+    else:
+        logging.basicConfig(level = default_level)
 
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
-
-logger.addHandler(handler)
-logger.addHandler(console)
 
 #sys.setrecursionlimit(5000)
 
@@ -67,6 +68,7 @@ def remove(path):
                     #print("--- remove folder!---"+path)
         
 if __name__ == '__main__':
+    setup_logging(default_path = "logging.json")
     mkdir()
     path=((r"C:\Users\ezhawud\Downloads\ERBS\testdata\\") + remove_date)
     remove(path)
