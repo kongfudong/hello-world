@@ -1,0 +1,9 @@
+一、建立基本任务
+1.添加test plan
+2.添加线程组 （Add → ThreadGroup）
+3.添加默认http请求参数（ Add → Config Element → HTTP Request Defaults）
+4.添加cookie管理（ Add → Config Element → HTTP Cookie Manager）
+5.添加http请求（登录，搜索等）
+二、高级任务
+
+
