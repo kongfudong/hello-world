@@ -1,5 +1,0 @@
-1.建立测试计划
-2.添加测试线程组（Add → ThreadGroup）
-3.添加FTP默认请求，配置默认请求参数（共用的参数）（Add → Config Element → FTP Request Defaults）
-4.添加FTP请求（Add → Sampler → FTP Request）
-5.添加监听器，查看结果（Add → Listener → View Results in Table）
